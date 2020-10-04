@@ -16,11 +16,15 @@ const database=knex({
     ssl:true
   }
 });
+const ok=
+{
+	heloo:"hello"
+}
 app.use(bodyParser.json());
 app.use(cors());
 app.get('/',(req,res)=>
 	{
-		res.json({ok:'ok'})
+		res.json(ok)
 		// database.select('*').from('customer')
 		// .then(user=>res.send(user));
 	});
