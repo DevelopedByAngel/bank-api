@@ -80,15 +80,13 @@ app.get('/',(req,res)=>
 		})
 		.returning('*')
 		.then(user=>console.log(user))
+		.catch(err=>res.status(500).send(err))
 		})
-		.then(()=>
-			{
-				console.log('ok')
+		console.log('ok')
 				database.select('*').from('customer')
 				.then(user=>res.send(user))
 				.catch(err=>res.status(402).json(err))
-			})
-		.catch(err=>res.status(500).json(err))
+			
 	});
 app.post('/login',(req,res)=>
 	{
