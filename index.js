@@ -26,6 +26,7 @@ app.get('/',(req,res)=>
 	{
 		console.log('ok')
 		console.log(database)
+		res.json(database)
 		// database.select('*').from('customer')
 		// .then(user=>res.send(user));
 	});
