@@ -73,10 +73,11 @@ app.get('/',(req,res)=>
 	{
 		d.map(da=>
 		{
+			console.log(da)
 		database('customer').insert(
 		{
-			name:d.name,
-			email:d.email
+			name:da.name,
+			email:da.email
 		})
 		.returning('*')
 		.then(user=>console.log(user))
