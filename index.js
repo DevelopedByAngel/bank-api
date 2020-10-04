@@ -22,12 +22,24 @@ app.use(bodyParser.json());
 app.use(cors());
 app.get('/',(req,res)=>
 	{
-		console.log('ok')
-		console.log(database)
+		database('customer').insert(
+		{
+			name:'angel',
+			email:'angel@gmail.com',
+			balance:'5000'
+		})
+		.returning('*')
+		.then(user=>console.log(user))
+		.then(()=>
+			{
+				console.log('ok')
+				console.log(database)
 		// res.json(database)
-		database.select('*').from('customer')
-		.then(user=>res.send(user))
-		.catch(err=>res.status(402).json(err))
+				database.select('*').from('customer')
+				.then(user=>res.send(user))
+				.catch(err=>res.status(402).json(err))
+			})
+		.catch(err=>res.status(500).json(err))
 	});
 app.post('/login',(req,res)=>
 	{
