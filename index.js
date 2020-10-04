@@ -24,7 +24,8 @@ app.get('/',(req,res)=>
 		console.log(database)
 		// res.json(database)
 		database.select('*').from('customer')
-		.then(user=>res.send(user));
+		.then(user=>res.send(user))
+		.catch(err=>res.status(402).json(err))
 	});
 app.post('/login',(req,res)=>
 	{
