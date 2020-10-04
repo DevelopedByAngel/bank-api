@@ -12,24 +12,15 @@ const dateformat=require('dateformat');
 const database=knex({
   client: 'pg',
   connection: {
-    host : '127.0.0.1',
-    user : 'postgres',
-    password : 'angel@111@ps',
-    database : 'spindle'
-  }
-});
-var mailtransport = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'remainderevent@gmail.com',
-    pass: 'remainder111'
+    connectionString: process.env.DATABASE_URL,
+    ssl:true
   }
 });
 app.use(bodyParser.json());
 app.use(cors());
 app.get('/',(req,res)=>
 	{
-		database.select('*').from('users')
+		database.select('*').from('customer')
 		.then(user=>res.send(user));
 	});
 app.post('/login',(req,res)=>
