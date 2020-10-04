@@ -25,10 +25,8 @@ app.use(cors());
 app.get('/',(req,res)=>
 	{
 		console.log('ok')
-		console.log(ok)
-		res.json(ok)
-		// database.select('*').from('customer')
-		// .then(user=>res.send(user));
+		database.select('*').from('customer')
+		.then(user=>res.send(user));
 	});
 app.post('/login',(req,res)=>
 	{
