@@ -118,9 +118,13 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 			.then(balance =>
 			{
 				console.log(balance)
-				tobalance=tobalance[0].balance;	
+				tobalance=balance[0].balance;	
 			})
-			.catch(err=>res.status(402).json('error in to'))
+			.catch(err=>
+				{
+					console.log(err);
+					res.status(402).json('error in to')
+			})
 			)
 		.catch(err=>res.status(402).json('error in from'))
 		if(frombalance>=amt)
@@ -134,6 +138,7 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 			})
 			.then(trn=>
 			{
+				console.log(trn)
 				database('customer')
 				.where('email','=',from)
 				.update(
