@@ -146,17 +146,18 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 				.where('email','=',from)
 				.update(
 				{
-					balance: frombalance-amt
+					balance: parseInt(frombalance)-amt
 				},[balance])
-				.then(()=>
+				.then((m)=>
 				{
+					console.log(m)
 					database('customer')
 					.where('email','=',to)
 					.update(
 					{
-						balance: tobalance+amt
+						balance: parseInt(tobalance)+amt
 					},[balance])
-					.then(()=>getTransactions(from,res))
+					.then((b)=>res.json(b))
 					.catch(err=>res.status(402).json('error in updating to'))
 				})
 				.catch(err=>res.status(402).json('error in updating to'))
@@ -209,6 +210,7 @@ app.post('/transfer',(req,res)=>
 	});
 const getTransactions=(name,res)=>
 {
+	console.log(name);
 	var tasks;
 	database.select('*').from('transaction').where('from','=',email).orWhere('to','=',email)
 	.then(trn=>
