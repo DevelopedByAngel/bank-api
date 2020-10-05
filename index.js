@@ -161,7 +161,10 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 					.then((b)=>res.json(b))
 					.catch(err=>res.status(402).json(err))
 				})
-				.catch(err=>res.status(402).json(err))
+				.catch(err=>{
+					console.log(err);
+					res.status(402).json(err)
+				})
 			})
 			.catch(err=>res.status(402).json(err))
 		}
