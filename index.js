@@ -18,55 +18,6 @@ const database=knex({
   }
   }
 });
-// const d=[
-// {
-// 	name:'anncy',
-// 	email:'anncy@gmail.com'
-// },
-// {
-// 	name:'clement',
-// 	email:'clement@gmail.com'
-// },
-// {
-// 	name:'Amali Francis',
-// 	email:'amali@yahoo.com'
-// },
-// {
-// 	name:'Jennifier',
-// 	email:'Jennifier@gmail.com'
-// },
-// {
-// 	name:'Priya Shankar',
-// 	email:'priya@gmail.com',
-// },
-// {
-// 	name:'Ram Nishanth',
-// 	email:'Nishanth@gmail.com',
-// },
-// {
-// 	name:'Seiju',
-// 	email:'seiju19@gmail.com'
-// },
-// {
-// 	name:'Sagaya',
-// 	email:'bsagaya@gmail.com'
-// },
-// {
-// 	name:'Yuvaraj',
-// 	email:'yuvarajcs@yahoo.com'
-// },
-// {
-// 	name:'Debnita',
-// 	email:'debnita56@gmail.com'
-// },
-// {
-// 	name:'Nisha',
-// 	email:'Nisha@yahoo.com'
-// },
-// {
-// 	name:'Divya',
-// 	email:'divya@gmail.com'
-// }]
 app.use(bodyParser.json());
 app.use(cors());
 app.get('/',(req,res)=>
@@ -192,7 +143,7 @@ const getTransactions=(name,res)=>
 {
 	console.log(name);
 	var tasks;
-	database.select('*').from('transaction').where('from','=',email).orWhere('to','=',email)
+	database.select('*').from('transaction').where('from','=',name).orWhere('to','=',name)
 	.then(trn=>
 	{
 		console.log(trn)
@@ -259,10 +210,7 @@ const decrements=(email,amt)=>
 }
 app.get('/:email',(req,res)=>
 {
-	console.log('ok')
-	console.log(req.params.email)
-	console.log(decrements(req.params.email,300))
-	res.json({ok:'increments(req.params.email,300)'})
+	getTransactions(email,res)
 })
 app.post('/update',(req,res)=>
 	{
