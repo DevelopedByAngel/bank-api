@@ -214,7 +214,9 @@ const increments=(email,amt)=>
 	{
 		return(u)
 	})
-	.catch(err=>return(err))
+	.catch(err=>{
+		return(err)
+	})
 }
 app.get('/:email',(req,res)=>
 {
