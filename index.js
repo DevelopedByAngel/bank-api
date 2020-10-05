@@ -71,22 +71,10 @@ app.use(bodyParser.json());
 app.use(cors());
 app.get('/',(req,res)=>
 	{
-		d.map(da=>
-		{
-			console.log(da)
-		database('customer').insert(
-		{
-			name:da.name,
-			email:da.email
-		})
-		.returning('*')
-		.then(user=>console.log(user))
-		.catch(err=>res.status(500).send(err))
-		})
-		console.log('ok')
-				database.select('*').from('customer')
-				.then(user=>res.send(user))
-				.catch(err=>res.status(402).json(err))
+		console.log('in')
+		database.select('*').from('customer')
+		.then(user=>res.send(user))
+		.catch(err=>res.status(402).json(err))
 			
 	});
 app.post('/login',(req,res)=>
@@ -114,66 +102,56 @@ app.post('/login',(req,res)=>
 			})
 		.catch(err=>res.status(400).json('error occured'))		
 	});
-app.post('/register', (req, res)=>
+app.get('/transaction/:from/:to/:amt', (req, res)=>
 	{
-		const {from,to,amt} = req.body;
-		database.transaction(trx=>
+		const {from,to,amt} =req.params;
+		var frombalance ,tobalance;
+		database.select('*').from('customer').where('email','=',from)
+		.then(balance =>
 		{
-		trx('transaction')
-		.insert(
-		{
-			from:from,
-			to:to,
-			amt:amt
+			frombalance=balance[0].balance;	
 		})
-		.returning('from')
-		.then(name=>
+		.then(()=>
+			database.select('*').from('customer').where('email','=',to)
+			.then(balance =>
+			{
+				tobalance=tobalance[0].balance;	
+			})
+			.catch(err=>res.status(402).json('error in to'))
+			)
+		.catch(err=>res.status(402).json('error in from'))
+		if(frombalance>=amt)
 		{
-			
-			return trx('users')
+			database('transaction')
 			.insert(
 			{
-				name:name,
-				email:loginemail[0]
+				frome:from,
+				toe:to,
+				amt:amt
 			})
-			.returning('*')
-			.then(user=>
+			.then(trn=>
 			{
-				console.log('logged in as '+user[0].name)
-				if(user[0])
+				database('customer')
+				.where('email','=',from)
+				.update(
 				{
-					database.select('*').from('users').where('email','=',user[0].email)
-					.then(usergot=>
+					balance: frombalance-amt
+				},[balance])
+				.then(()=>
+				{
+					database('customer')
+					.where('email','=',to)
+					.update(
 					{
-						// createTable(usergot[0].id)
-						var id=usergot[0].id;
-						const tablename='user'+id;
-		database.select('*').from('users').where('id','=',parseInt(id))
-		.then(user=>
-		{
-			if(user)
-			{
-				database.schema.createTable(tablename,(table)=>
-				{
-					table.increments('id');
-					table.string('task');
-					table.date('due');
+						balance: tobalance+amt
+					},[balance])
+					.then(()=>getTransactions(from,res))
+					.catch(err=>res.status(402).json('error in updating to'))
 				})
-				.then(console.log('table created for'+user[0].name))
-				.catch(err=>console.log(err))
-			}
-		})
-					})
-					.catch(err=>Error('error'))
-					res.json(user[0])
-				}
+				.catch(err=>res.status(402).json('error in updating to'))
 			})
-			.catch(err =>Error('error'))
-		})
-		.then(trx.commit)
-		.catch(trx.rollback);
-	})
-		.catch(err=>res.status(400).json(err))
+			.catch(err=>res.status(402).json('error in transactions'))
+		}
 	});
 const createTable=(id)=>
 	{
@@ -215,7 +193,7 @@ app.post('/transfer',(req,res)=>
 const getTransactions=(name,res)=>
 {
 	var tasks;
-	database.select('*').from('transaction').where('from','=',name).orWhere('to','=',name)
+	database.select('*').from('transaction').where('from','=',email).orWhere('to','=',email)
 	.then(trn=>
 	{
 		console.log(trn)
