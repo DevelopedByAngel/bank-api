@@ -211,9 +211,10 @@ const increments=(email,amt)=>
 		balance: amt,
 		nooftranscations: 1,
 	})
+	.returning('*')
 	.then((u)=>
 	{
-		console.log(u)
+		console.log('in',u)
 		return(u)
 	})
 	.catch(err=>{
