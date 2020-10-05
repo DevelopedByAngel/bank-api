@@ -106,15 +106,18 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 	{
 		const {from,to,amt} =req.params;
 		var frombalance ,tobalance;
+		console.log(from,to,amt);
 		database.select('*').from('customer').where('email','=',from)
 		.then(balance =>
 		{
+			console.log(balance)
 			frombalance=balance[0].balance;	
 		})
 		.then(()=>
 			database.select('*').from('customer').where('email','=',to)
 			.then(balance =>
 			{
+				console.log(balance)
 				tobalance=tobalance[0].balance;	
 			})
 			.catch(err=>res.status(402).json('error in to'))
