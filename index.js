@@ -126,7 +126,7 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 					res.status(402).json('error in to')
 			})
 			)
-		.then(()=>res.json(frombalance,tobalance))
+		.then(()=>res.json({frombalance:frombalance,tobalance:tobalance}))
 		.catch(err=>res.status(402).json('error in from'))
 		// if(frombalance>=amt)
 		// {
