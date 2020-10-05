@@ -18,55 +18,55 @@ const database=knex({
   }
   }
 });
-const d=[
-{
-	name:'anncy',
-	email:'anncy@gmail.com'
-},
-{
-	name:'clement',
-	email:'clement@gmail.com'
-},
-{
-	name:'Amali Francis',
-	email:'amali@yahoo.com'
-},
-{
-	name:'Jennifier',
-	email:'Jennifier@gmail.com'
-},
-{
-	name:'Priya Shankar',
-	email:'priya@gmail.com',
-},
-{
-	name:'Ram Nishanth',
-	email:'Nishanth@gmail.com',
-},
-{
-	name:'Seiju',
-	email:'seiju19@gmail.com'
-},
-{
-	name:'Sagaya',
-	email:'bsagaya@gmail.com'
-},
-{
-	name:'Yuvaraj',
-	email:'yuvarajcs@yahoo.com'
-},
-{
-	name:'Debnita',
-	email:'debnita56@gmail.com'
-},
-{
-	name:'Nisha',
-	email:'Nisha@yahoo.com'
-},
-{
-	name:'Divya',
-	email:'divya@gmail.com'
-}]
+// const d=[
+// {
+// 	name:'anncy',
+// 	email:'anncy@gmail.com'
+// },
+// {
+// 	name:'clement',
+// 	email:'clement@gmail.com'
+// },
+// {
+// 	name:'Amali Francis',
+// 	email:'amali@yahoo.com'
+// },
+// {
+// 	name:'Jennifier',
+// 	email:'Jennifier@gmail.com'
+// },
+// {
+// 	name:'Priya Shankar',
+// 	email:'priya@gmail.com',
+// },
+// {
+// 	name:'Ram Nishanth',
+// 	email:'Nishanth@gmail.com',
+// },
+// {
+// 	name:'Seiju',
+// 	email:'seiju19@gmail.com'
+// },
+// {
+// 	name:'Sagaya',
+// 	email:'bsagaya@gmail.com'
+// },
+// {
+// 	name:'Yuvaraj',
+// 	email:'yuvarajcs@yahoo.com'
+// },
+// {
+// 	name:'Debnita',
+// 	email:'debnita56@gmail.com'
+// },
+// {
+// 	name:'Nisha',
+// 	email:'Nisha@yahoo.com'
+// },
+// {
+// 	name:'Divya',
+// 	email:'divya@gmail.com'
+// }]
 app.use(bodyParser.json());
 app.use(cors());
 app.get('/',(req,res)=>
@@ -126,7 +126,7 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 					res.status(402).json('error in to')
 			})
 			)
-		.then(()=>res.json(frombalance,tobalance));
+		.then(()=>res.json(frombalance,tobalance))
 		.catch(err=>res.status(402).json('error in from'))
 		// if(frombalance>=amt)
 		// {
