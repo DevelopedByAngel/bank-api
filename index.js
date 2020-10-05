@@ -203,6 +203,7 @@ const getTransactions=(name,res)=>
 }
 const increments=(email,amt)=>
 {
+	var re;
 	console.log(email,amt)
 	database('customer')
 	.where('email', '=', email)
@@ -214,13 +215,14 @@ const increments=(email,amt)=>
 	.returning('*')
 	.then((u)=>
 	{
-		console.log('in',u)
-		return(u)
+		console.log('in',u[0].balance)
+		re=u[0]
 	})
 	.catch(err=>{
 		console.log(err)
-		return(err)
+		re=err
 	})
+	return re;
 }
 app.get('/:email',(req,res)=>
 {
