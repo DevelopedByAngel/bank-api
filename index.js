@@ -127,15 +127,18 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 			})
 			)
 		.catch(err=>res.status(402).json('error in from'))
+		console.log(tobalance,frombalance)
 		if(frombalance>=amt)
 		{
-			database('transaction')
+			database
 			.insert(
 			{
 				frome:from,
 				toe:to,
 				amt:amt
 			})
+			.returning('*')
+			.into('transaction')
 			.then(trn=>
 			{
 				console.log(trn)
