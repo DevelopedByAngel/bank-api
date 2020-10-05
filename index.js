@@ -150,6 +150,7 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 				},[balance])
 				.then((m)=>
 				{
+					console.log('m')
 					console.log(m)
 					database('customer')
 					.where('email','=',to)
@@ -158,9 +159,9 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 						balance: parseInt(tobalance)+amt
 					},[balance])
 					.then((b)=>res.json(b))
-					.catch(err=>res.status(402).json('error in updating to'))
+					.catch(err=>res.status(402).json(err))
 				})
-				.catch(err=>res.status(402).json('error in updating to'))
+				.catch(err=>res.status(402).json(err))
 			})
 			.catch(err=>res.status(402).json(err))
 		}
