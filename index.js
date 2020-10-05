@@ -222,6 +222,41 @@ const increments=(email,amt)=>
 		console.log(err)
 		re=err
 	})
+	console.log('returned',re)
+	return re;
+}
+const decrements=(email,amt)=>
+{
+	var re;
+	console.log(email,amt)
+	database('customer')
+	.where('email', '=', email)
+	.increment(
+	{
+		nooftranscations: 1,
+	})
+	.returning('*')
+	.then((u)=>
+	{
+		console.log(u[0])
+		database('customer')
+		.where('email', '=', email)
+		.decrement(
+		{
+			balance: amt,
+		})
+		.returning('*')
+		.then((sec)=>
+		{
+			re=sec[0]
+		})
+		.catch(err=>console.log(err))
+	})
+	.catch(err=>{
+		console.log(err)
+		re=err
+	})
+	console.log('returned',re)
 	return re;
 }
 app.get('/:email',(req,res)=>
