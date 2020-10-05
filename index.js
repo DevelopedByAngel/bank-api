@@ -203,6 +203,7 @@ const getTransactions=(name,res)=>
 }
 const increments=(email,amt)=>
 {
+	console.log(email,amt)
 	database('customer')
 	.where('email', '=', email)
 	.increment(
@@ -222,6 +223,7 @@ const increments=(email,amt)=>
 }
 app.get('/:email',(req,res)=>
 {
+	console.log('ok')
 	console.log(req.params.email)
 	console.log(increments(req.params.email,300))
 	res.json({ok:'increments(req.params.email,300)'})
