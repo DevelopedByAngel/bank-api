@@ -144,7 +144,7 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 		}
 		}
 		)
-		.catch(err=>res.status(402).json('error in from'))
+		.catch(err=>res.status(402).json(err))
 		
 		// 	.then(trn=>
 		// 	{
