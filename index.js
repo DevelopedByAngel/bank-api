@@ -210,7 +210,7 @@ const decrements=(email,amt)=>
 }
 app.get('/:email',(req,res)=>
 {
-	getTransactions(email,res)
+	getTransactions(req.params.email,res)
 })
 app.post('/update',(req,res)=>
 	{
