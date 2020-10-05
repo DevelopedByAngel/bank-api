@@ -126,9 +126,9 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 					res.status(402).json('error in to')
 			})
 			)
-		.then(()=>console.log({frombalance:frombalance,tobalance:tobalance}))
-		.catch(err=>res.status(402).json('error in from'))
-		if(frombalance>=amt)
+		.then(()=>
+		{
+			if(frombalance>=amt)
 		{
 			database
 			.insert(
@@ -140,6 +140,12 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 			.returning('*')
 			.into('transaction')
 			.then(cst=>res.json(cst))
+			.catch(err=>res.status(402).json('error in transactions'))
+		}
+		}
+		)
+		.catch(err=>res.status(402).json('error in from'))
+		
 		// 	.then(trn=>
 		// 	{
 		// 		console.log(trn)
@@ -162,8 +168,7 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 		// 		})
 		// 		.catch(err=>res.status(402).json('error in updating to'))
 		// 	})
-			.catch(err=>res.status(402).json('error in transactions'))
-		}
+			
 	});
 const createTable=(id)=>
 	{
