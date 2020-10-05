@@ -208,7 +208,7 @@ const increments=(email,amt)=>
 	.increment(
 	{
 		balance: amt,
-		nooftransactions: 1,
+		nooftranscations: 1,
 	})
 	.then((u)=>
 	{
