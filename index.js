@@ -141,30 +141,7 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 			.into('trn')
 			.then(trn=>
 			{
-				console.log('in',trn)
-				database('customer')
-				.where('email','=',from)
-				.update(
-				{
-					balance: parseInt(frombalance)-amt
-				},[balance])
-				.then((m)=>
-				{
-					console.log('m')
-					console.log(m)
-					database('customer')
-					.where('email','=',to)
-					.update(
-					{
-						balance: parseInt(tobalance)+amt
-					},[balance])
-					.then((b)=>res.json(b))
-					.catch(err=>res.status(402).json(err))
-				})
-				.catch(err=>{
-					console.log(err);
-					res.status(402).json(err)
-				})
+			res.json(trn)
 			})
 			.catch(err=>res.status(402).json(err))
 		}
@@ -175,6 +152,7 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 			
 			
 	});
+
 const createTable=(id)=>
 	{
 		const tablename='user'+id;
@@ -223,6 +201,25 @@ const getTransactions=(name,res)=>
 		res.json(trn);
 	})
 }
+const increments=(email,amt)=>
+{
+	database('customer')
+	.where('email', '=', email)
+	.increment(
+	{
+		balance: amt,
+		nooftransactions: 1,
+	})
+	.then((u)=>
+	{
+		return(u)
+	})
+	.catch(err=>return(err))
+}
+app.get('/:email',(req,res)=>
+{
+	res.json(increments(req.params.email,300))
+})
 app.post('/update',(req,res)=>
 	{
 		const {id,taskid,task,due}=req.body;
