@@ -143,7 +143,7 @@ const getTransactions=(name,res)=>
 {
 	console.log(name);
 	var tasks;
-	database.select('*').from('transaction').where('from','=',name).orWhere('to','=',name)
+	database.select('*').from('trn').where('frome','=',name).orWhere('toe','=',name)
 	.then(trn=>
 	{
 		console.log(trn)
