@@ -126,43 +126,43 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 					res.status(402).json('error in to')
 			})
 			)
+		.then(()=>res.json(frombalance,tobalance));
 		.catch(err=>res.status(402).json('error in from'))
-		console.log(tobalance,frombalance)
-		if(frombalance>=amt)
-		{
-			database
-			.insert(
-			{
-				frome:from,
-				toe:to,
-				amt:amt
-			})
-			.returning('*')
-			.into('transaction')
-			.then(trn=>
-			{
-				console.log(trn)
-				database('customer')
-				.where('email','=',from)
-				.update(
-				{
-					balance: frombalance-amt
-				},[balance])
-				.then(()=>
-				{
-					database('customer')
-					.where('email','=',to)
-					.update(
-					{
-						balance: tobalance+amt
-					},[balance])
-					.then(()=>getTransactions(from,res))
-					.catch(err=>res.status(402).json('error in updating to'))
-				})
-				.catch(err=>res.status(402).json('error in updating to'))
-			})
-			.catch(err=>res.status(402).json('error in transactions'))
-		}
+		// if(frombalance>=amt)
+		// {
+		// 	database
+		// 	.insert(
+		// 	{
+		// 		frome:from,
+		// 		toe:to,
+		// 		amt:amt
+		// 	})
+		// 	.returning('*')
+		// 	.into('transaction')
+		// 	.then(trn=>
+		// 	{
+		// 		console.log(trn)
+		// 		database('customer')
+		// 		.where('email','=',from)
+		// 		.update(
+		// 		{
+		// 			balance: frombalance-amt
+		// 		},[balance])
+		// 		.then(()=>
+		// 		{
+		// 			database('customer')
+		// 			.where('email','=',to)
+		// 			.update(
+		// 			{
+		// 				balance: tobalance+amt
+		// 			},[balance])
+		// 			.then(()=>getTransactions(from,res))
+		// 			.catch(err=>res.status(402).json('error in updating to'))
+		// 		})
+		// 		.catch(err=>res.status(402).json('error in updating to'))
+		// 	})
+		// 	.catch(err=>res.status(402).json('error in transactions'))
+		// }
 	});
 const createTable=(id)=>
 	{
