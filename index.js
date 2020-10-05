@@ -138,7 +138,7 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 				amt:amt
 			})
 			.returning('*')
-			.into('transaction')
+			.into('trn')
 			.then(cst=>res.json(cst))
 			.catch(err=>res.status(402).json(err))
 		}
