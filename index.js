@@ -212,15 +212,19 @@ const increments=(email,amt)=>
 	})
 	.then((u)=>
 	{
+		console.log(u)
 		return(u)
 	})
 	.catch(err=>{
+		console.log(err)
 		return(err)
 	})
 }
 app.get('/:email',(req,res)=>
 {
-	res.json(increments(req.params.email,300))
+	console.log(req.params.email)
+	console.log(increments(req.params.email,300))
+	res.json({ok:'increments(req.params.email,300)'})
 })
 app.post('/update',(req,res)=>
 	{
