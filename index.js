@@ -140,7 +140,7 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 			.returning('*')
 			.into('transaction')
 			.then(cst=>res.json(cst))
-			.catch(err=>res.status(402).json('error in transactions'))
+			.catch(err=>res.status(402).json(err))
 		}
 		}
 		)
