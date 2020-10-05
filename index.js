@@ -129,28 +129,26 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 		.then(()=>
 		{
 			if(frombalance>=amt)
-		{
-			database
-			.insert(
 			{
-				frome:from,
-				toe:to,
-				amt:amt
-			})
-			.returning('*')
-			.into('trn')
-			.then(trn=>
-			{
-			res.json(trn)
-			})
-			.catch(err=>res.status(402).json(err))
-		}
-		}
-		)
+				database
+				.insert(
+				{
+					frome:from,
+					toe:to,
+					amt:amt
+				})
+				.returning('*')
+				.into('trn')
+				.then(trn=>
+				{
+					increments(to,amt);
+					decrements(from,amt);
+					res.json(trn)
+				})
+				.catch(err=>res.status(402).json(err))
+			}
+		})
 		.catch(err=>res.status(402).json(err))
-		
-			
-			
 	});
 
 const createTable=(id)=>
