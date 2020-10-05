@@ -141,7 +141,7 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 			.into('trn')
 			.then(trn=>
 			{
-				console.log(trn)
+				console.log('in',trn)
 				database('customer')
 				.where('email','=',from)
 				.update(
