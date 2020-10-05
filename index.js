@@ -263,7 +263,7 @@ app.get('/:email',(req,res)=>
 {
 	console.log('ok')
 	console.log(req.params.email)
-	console.log(increments(req.params.email,300))
+	console.log(decrements(req.params.email,300))
 	res.json({ok:'increments(req.params.email,300)'})
 })
 app.post('/update',(req,res)=>
