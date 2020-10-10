@@ -28,6 +28,12 @@ app.get('/',(req,res)=>
 		.catch(err=>res.status(402).json(err))
 			
 	});
+const getusers=(res)=>
+{
+	database.select('*').from('customer')
+		.then(user=>res.send(user))
+		.catch(err=>res.status(402).json(err))
+}
 app.post('/login',(req,res)=>
 	{
 		const {email,password} = req.body;
@@ -94,7 +100,7 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 				{
 					increments(to,amt);
 					decrements(from,amt);
-					res.json(trn)
+					getusers(res);
 				})
 				.catch(err=>res.status(402).json(err))
 			}
