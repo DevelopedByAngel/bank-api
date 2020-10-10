@@ -121,24 +121,6 @@ const createTable=(id)=>
 			}
 		})
 	}
-app.post('/transfer',(req,res)=>
-	{
-		const {from,to ,amt}=req.body;
-		database.insert(
-		{
-			from:from,
-			to:to,
-			amt:amt
-		})
-		.returning('*')
-		.into('transaction')
-		.then(trnok=>
-			{
-				if(trnok)
-					getTasks(from,res);
-			})
-		.catch(err=>console.log(err))
-	});
 const getTransactions=(name,res)=>
 {
 	console.log(name);
