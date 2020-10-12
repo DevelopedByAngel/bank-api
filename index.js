@@ -34,6 +34,15 @@ const getusers=(res)=>
 		.then(user=>res.send(user))
 		.catch(err=>res.status(402).json(err))
 }
+app.get('/user/:email',(req,res)=>
+{
+	database.select('*').from('customer').where('email','=',req.params.email)
+	.then((data)=>
+	{
+		res.json(data[0])
+	})
+	.catch((err)=>res.status(402).json(err))
+})
 app.post('/login',(req,res)=>
 	{
 		const {email,password} = req.body;
