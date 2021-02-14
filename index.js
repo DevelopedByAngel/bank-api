@@ -22,7 +22,6 @@ app.use(bodyParser.json());
 app.use(cors());
 app.get('/',(req,res)=>
 	{
-		console.log('in')
 		database.select('*').from('customer')
 		.then(user=>res.send(user))
 		.catch(err=>res.status(402).json(err))
@@ -46,18 +45,15 @@ app.get('/user/:email',(req,res)=>
 app.post('/login',(req,res)=>
 	{
 		const {email,password} = req.body;
-		console.log('in'+email,password)
 		database.select('*').from('logind').where('email','=',email)
 		.then(data=>
 			{
-				console.log(data)
 				const valid=password===jwt.verify(data[0].name,'spindle').password;
-				console.log(valid)
 				if (valid)
 				{
 					database.select('*').from('users').where('email','=',email)
 					.then(user=>
-					{	console.log(user)
+					{
 						res.send(user[0]);					
 					})
 				}
@@ -72,23 +68,19 @@ app.get('/transaction/:from/:to/:amt', (req, res)=>
 	{
 		const {from,to,amt} =req.params;
 		var frombalance ,tobalance;
-		console.log(from,to,amt);
 		database.select('*').from('customer').where('email','=',from)
 		.then(balance =>
 		{
-			console.log(balance)
 			frombalance=balance[0].balance;	
 		})
 		.then(()=>
 			database.select('*').from('customer').where('email','=',to)
 			.then(balance =>
 			{
-				console.log(balance)
 				tobalance=balance[0].balance;	
 			})
 			.catch(err=>
 				{
-					console.log(err);
 					res.status(402).json('error in to')
 			})
 			)
@@ -138,19 +130,16 @@ const createTable=(id)=>
 	}
 const getTransactions=(name,res)=>
 {
-	console.log(name);
 	var tasks;
 	database.select('*').from('trn').where('frome','=',name).orWhere('toe','=',name)
 	.then(trn=>
 	{
-		console.log(trn)
 		res.json(trn);
 	})
 }
 const increments=(email,amt)=>
 {
 	var re;
-	console.log(email,amt)
 	database('customer')
 	.where('email', '=', email)
 	.increment(
@@ -161,7 +150,6 @@ const increments=(email,amt)=>
 	.returning('*')
 	.then((u)=>
 	{
-		console.log('in',u[0].balance)
 		re=u[0]
 	})
 	.catch(err=>{
@@ -174,7 +162,6 @@ const increments=(email,amt)=>
 const decrements=(email,amt)=>
 {
 	var re;
-	console.log(email,amt)
 	database('customer')
 	.where('email', '=', email)
 	.increment(
@@ -184,7 +171,6 @@ const decrements=(email,amt)=>
 	.returning('*')
 	.then((u)=>
 	{
-		console.log(u[0])
 		database('customer')
 		.where('email', '=', email)
 		.decrement(
@@ -199,10 +185,8 @@ const decrements=(email,amt)=>
 		.catch(err=>console.log(err))
 	})
 	.catch(err=>{
-		console.log(err)
 		re=err
 	})
-	console.log('returned',re)
 	return re;
 }
 app.get('/:email',(req,res)=>
@@ -213,20 +197,17 @@ app.post('/update',(req,res)=>
 	{
 		const {id,taskid,task,due}=req.body;
 		const duemodified=due.slice(0,8)+(parseInt(due.slice(-2))+1)
-		console.log('due'+duemodified)
 		database('user'+id)
 		  .where({ id: taskid })
 		  .update({ task: task ,due:duemodified}, ['id', 'task','due'])
 		  .then((u)=>
 		{
-			console.log(u)
 			getTasks(id,res)
 		})
 	});
 app.get('/trn',(req,res)=>
 	{
 		const name = req.body.name;
-		console.log(name);
 		getTasks(name,res);
 	});
 
